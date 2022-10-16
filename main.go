@@ -14,6 +14,7 @@ var yt youtube.Client
 
 func processor(w http.ResponseWriter, r bunrouter.Request) error {
 	id := r.Params().ByName("id")
+	quality := r.Params().ByName("quality")
 	if id == "" {
 		_, _ = fmt.Fprint(w, "error: Id field missing!")
 		return nil
@@ -24,13 +25,25 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		_, _ = fmt.Fprint(w, err.Error())
 		return nil
 	}
-	http.Redirect(w, r.Request, v.Formats.WithAudioChannels()[1].URL, http.StatusFound)
+	for _, ee := range v.Formats.WithAudioChannels() {
+		log.Println(ee.Quality)
+	}
+	q := v.Formats.WithAudioChannels()[1].URL
+	if quality != "" {
+		if quality == "480" {
+			q = v.Formats.WithAudioChannels()[0].URL
+		} else if quality == "720" {
+			q = v.Formats.WithAudioChannels()[2].URL
+		}
+	}
+	http.Redirect(w, r.Request, q, http.StatusFound)
 	return nil
 }
 
 func main() {
 	log.Println("Starting ...")
 	router := bunrouter.New()
+	router.GET("/download/:id/:quality", processor)
 	router.GET("/download/:id", processor)
 	port := os.Getenv("PORT")
 	handler := http.Handler(router)
