@@ -24,7 +24,7 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		_, _ = fmt.Fprint(w, err.Error())
 		return nil
 	}
-	log.Println(v.Formats.WithAudioChannels()[1].URL)
+	http.Redirect(w, r.Request, v.Formats.WithAudioChannels()[1].URL, http.StatusFound)
 	w.WriteHeader(http.StatusOK)
 	return nil
 }
