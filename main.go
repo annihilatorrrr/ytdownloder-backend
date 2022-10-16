@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/kkdai/youtube/v2"
-	"github.com/kkdai/youtube/v2/downloader"
-	"github.com/uptrace/bunrouter"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/kkdai/youtube/v2"
+	"github.com/kkdai/youtube/v2/downloader"
+	"github.com/uptrace/bunrouter"
 )
 
 var yt youtube.Client
