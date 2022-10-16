@@ -26,7 +26,7 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		return nil
 	}
 	//out := fmt.Sprintf("./%s.mp4", v.Title)
-	log.Println(v.Formats.WithAudioChannels()[0])
+	log.Println(v.Formats.WithAudioChannels()[1])
 	// err = d.Download(context.Background(), v, &v.Formats.WithAudioChannels()[], out)
 	// if err != nil {
 	//	log.Println("Downloader error!")
