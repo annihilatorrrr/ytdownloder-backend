@@ -16,12 +16,7 @@ var yt youtube.Client
 
 func processor(w http.ResponseWriter, r bunrouter.Request) error {
 	parms := r.Params()
-	quality := parms.ByName("quality")
 	url := parms.ByName("url")
-	if quality == "" {
-		_, _ = fmt.Fprint(w, "error: Quality field missing!")
-		return nil
-	}
 	if url == "" {
 		_, _ = fmt.Fprint(w, "error: Url field missing!")
 		return nil
@@ -51,17 +46,16 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 func main() {
 	log.Println("Starting ...")
 	router := bunrouter.New()
-	router.GET("/download/:url/:quality", processor)
+	router.GET("/download/:url", processor)
 	port := os.Getenv("PORT")
 	handler := http.Handler(router)
 	if port == "" {
 		port = "80"
 	}
 	server := &http.Server{
-		Addr:         "0.0.0.0:" + port,
-		ReadTimeout:  3 * time.Second,
-		WriteTimeout: 3 * time.Second,
-		Handler:      handler,
+		Addr:        "0.0.0.0:" + port,
+		ReadTimeout: 3 * time.Second,
+		Handler:     handler,
 	}
 	yt = youtube.Client{}
 	if err := server.ListenAndServe(); err != nil {
