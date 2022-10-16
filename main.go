@@ -30,13 +30,14 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 	}
 	q := v.Formats.WithAudioChannels()[1].URL
 	if quality != "" {
-		if quality == "480" {
+		if quality == "720" {
 			q = v.Formats.WithAudioChannels()[0].URL
-		} else if quality == "720" {
+		} else if quality == "360" {
 			q = v.Formats.WithAudioChannels()[2].URL
 		}
 	}
 	http.Redirect(w, r.Request, q, http.StatusFound)
+	_, _ = fmt.Fprint(w, "By @Annihilatorrrr!")
 	return nil
 }
 
@@ -52,9 +53,9 @@ func main() {
 	}
 	server := &http.Server{
 		Addr:         "0.0.0.0:" + port,
-		ReadTimeout:  0,
+		ReadTimeout:  3,
 		Handler:      handler,
-		WriteTimeout: 0,
+		WriteTimeout: 3,
 	}
 	yt = youtube.Client{}
 	log.Println("Started!")
