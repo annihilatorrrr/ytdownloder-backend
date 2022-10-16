@@ -50,7 +50,7 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 func main() {
 	log.Println("Starting ...")
 	router := bunrouter.New()
-	router.GET("/download/*", processor)
+	router.GET("/download/:url", processor)
 	port := os.Getenv("PORT")
 	handler := http.Handler(router)
 	if port == "" {
