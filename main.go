@@ -9,7 +9,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"time"
 )
 
 var yt youtube.Client
@@ -48,13 +47,14 @@ func main() {
 	}
 	server := &http.Server{
 		Addr:         "0.0.0.0:" + port,
-		ReadTimeout:  3 * time.Second,
+		ReadTimeout:  120,
 		Handler:      handler,
 		WriteTimeout: 120,
 	}
 	yt = youtube.Client{}
+	log.Println("Started!")
 	if err := server.ListenAndServe(); err != nil {
 		log.Println(err)
 	}
-	log.Println("Started!")
+	log.Println("Bye!")
 }
