@@ -30,7 +30,6 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		q = v.Formats.WithAudioChannels()[0].URL
 	}
 	http.Redirect(w, r.Request, q, http.StatusFound)
-	_, _ = fmt.Fprint(w, "By @Annihilatorrrr!")
 	return nil
 }
 
