@@ -16,6 +16,7 @@ import (
 var yt youtube.Client
 
 func processor(w http.ResponseWriter, r bunrouter.Request) error {
+	log.Println(r.Params().ByName("url"))
 	rurl := strings.Split(r.URL.Path, "download/")
 	if len(rurl) < 2 {
 		_, _ = fmt.Fprint(w, "error: Url field missing!")
