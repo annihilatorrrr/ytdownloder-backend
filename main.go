@@ -47,9 +47,10 @@ func main() {
 		port = "80"
 	}
 	server := &http.Server{
-		Addr:        "0.0.0.0:" + port,
-		ReadTimeout: 3 * time.Second,
-		Handler:     handler,
+		Addr:         "0.0.0.0:" + port,
+		ReadTimeout:  3 * time.Second,
+		Handler:      handler,
+		WriteTimeout: 120,
 	}
 	yt = youtube.Client{}
 	if err := server.ListenAndServe(); err != nil {
