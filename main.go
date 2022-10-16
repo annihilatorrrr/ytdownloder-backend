@@ -29,12 +29,8 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		log.Println(ee.Quality)
 	}
 	q := v.Formats.WithAudioChannels()[1].URL
-	if quality != "" {
-		if quality == "720" {
-			q = v.Formats.WithAudioChannels()[0].URL
-		} else if quality == "360" {
-			q = v.Formats.WithAudioChannels()[2].URL
-		}
+	if quality == "720" {
+		q = v.Formats.WithAudioChannels()[0].URL
 	}
 	http.Redirect(w, r.Request, q, http.StatusFound)
 	_, _ = fmt.Fprint(w, "By @Annihilatorrrr!")
