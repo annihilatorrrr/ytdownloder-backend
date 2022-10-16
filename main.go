@@ -40,7 +40,7 @@ func welcm(w http.ResponseWriter, _ bunrouter.Request) error {
 }
 
 func okand(w http.ResponseWriter, _ bunrouter.Request) error {
-	_, _ = fmt.Fprint(w, "error: Follow this format: download/video_id/quality ( by default 480p. )")
+	_, _ = fmt.Fprint(w, "error: Follow this format: download/video_id/quality ( by default 360p. )")
 	return nil
 }
 
