@@ -25,7 +25,6 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		return nil
 	}
 	http.Redirect(w, r.Request, v.Formats.WithAudioChannels()[1].URL, http.StatusFound)
-	w.WriteHeader(http.StatusOK)
 	return nil
 }
 
