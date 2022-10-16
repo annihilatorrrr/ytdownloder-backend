@@ -47,9 +47,9 @@ func main() {
 	}
 	server := &http.Server{
 		Addr:         "0.0.0.0:" + port,
-		ReadTimeout:  120,
+		ReadTimeout:  0,
 		Handler:      handler,
-		WriteTimeout: 120,
+		WriteTimeout: 0,
 	}
 	yt = youtube.Client{}
 	log.Println("Started!")
