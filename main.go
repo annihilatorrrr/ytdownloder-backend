@@ -33,9 +33,21 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 	return nil
 }
 
+func welcm(w http.ResponseWriter, _ bunrouter.Request) error {
+	_, _ = fmt.Fprint(w, "Welcome!")
+	return nil
+}
+
+func okand(w http.ResponseWriter, _ bunrouter.Request) error {
+	_, _ = fmt.Fprint(w, "error: Follow this format: download/video_id/quality ( by default 480p. )")
+	return nil
+}
+
 func main() {
 	log.Println("Starting ...")
 	router := bunrouter.New()
+	router.GET("/", welcm)
+	router.GET("/download", okand)
 	router.GET("/download/:id/:quality", processor)
 	router.GET("/download/:id", processor)
 	port := os.Getenv("PORT")
