@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"github.com/kkdai/youtube/v2"
 	"github.com/kkdai/youtube/v2/downloader"
@@ -25,15 +24,8 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		_, _ = fmt.Fprint(w, err.Error())
 		return nil
 	}
-	out := fmt.Sprintf("./%s.mp4", v.Title)
-	err = d.Download(context.Background(), v, &v.Formats.WithAudioChannels()[1], out)
-	if err != nil {
-		_, _ = fmt.Fprint(w, err.Error())
-		return nil
-	}
-	http.ServeFile(w, r.Request, out)
+	log.Println(v.Formats.WithAudioChannels()[1].URL)
 	w.WriteHeader(http.StatusOK)
-	_ = os.Remove(out)
 	return nil
 }
 
