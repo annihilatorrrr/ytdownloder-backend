@@ -9,35 +9,26 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 )
 
 var yt youtube.Client
 
 func processor(w http.ResponseWriter, r bunrouter.Request) error {
-	log.Println(r.Params().ByName("url"))
-	rurl := strings.Split(r.URL.Path, "download/")
-	if len(rurl) < 2 {
-		_, _ = fmt.Fprint(w, "error: Url field missing!")
+	id := r.Params().ByName("id")
+	if id == "" {
+		_, _ = fmt.Fprint(w, "error: Id field missing!")
 		return nil
 	}
-	url := rurl[1]
-	log.Println(url)
 	d := downloader.Downloader{Client: yt}
-	v, err := d.GetVideo(url)
+	v, err := d.GetVideo(id)
 	if err != nil {
-		log.Println("video error!")
 		_, _ = fmt.Fprint(w, err.Error())
 		return nil
 	}
-	form := &youtube.Format{
-		ItagNo:   18,
-		Quality:  "medium",
-		MimeType: "video/mp4",
-	}
 	out := fmt.Sprintf("./%s.mp4", v.Title)
-	err = d.Download(context.Background(), v, form, out)
+	log.Println(v.Formats.WithAudioChannels())
+	err = d.Download(context.Background(), v, &v.Formats.WithAudioChannels()[1], out)
 	if err != nil {
 		log.Println("Downloader error!")
 		_, _ = fmt.Fprint(w, err.Error())
@@ -51,7 +42,7 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 func main() {
 	log.Println("Starting ...")
 	router := bunrouter.New()
-	router.GET("/download/:url", processor)
+	router.GET("/download/:id", processor)
 	port := os.Getenv("PORT")
 	handler := http.Handler(router)
 	if port == "" {
