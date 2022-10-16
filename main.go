@@ -9,21 +9,24 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
 var yt youtube.Client
 
 func processor(w http.ResponseWriter, r bunrouter.Request) error {
-	parms := r.Params()
-	url := parms.ByName("url")
-	if url == "" {
+	rurl := strings.Split(r.URL.Path, "download/")
+	if len(rurl) < 2 {
 		_, _ = fmt.Fprint(w, "error: Url field missing!")
 		return nil
 	}
+	url := rurl[1]
+	log.Println(url)
 	d := downloader.Downloader{Client: yt}
 	v, err := d.GetVideo(url)
 	if err != nil {
+		log.Println("video error!")
 		_, _ = fmt.Fprint(w, err.Error())
 		return nil
 	}
@@ -35,6 +38,7 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 	out := fmt.Sprintf("./%s.mp4", v.Title)
 	err = d.Download(context.Background(), v, form, out)
 	if err != nil {
+		log.Println("Downloader error!")
 		_, _ = fmt.Fprint(w, err.Error())
 		return nil
 	}
@@ -46,7 +50,7 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 func main() {
 	log.Println("Starting ...")
 	router := bunrouter.New()
-	router.GET("/download/:url", processor)
+	router.GET("/download/", processor)
 	port := os.Getenv("PORT")
 	handler := http.Handler(router)
 	if port == "" {
