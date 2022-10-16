@@ -25,9 +25,6 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 		_, _ = fmt.Fprint(w, err.Error())
 		return nil
 	}
-	for _, ee := range v.Formats.WithAudioChannels() {
-		log.Println(ee.Quality)
-	}
 	q := v.Formats.WithAudioChannels()[1].URL
 	if quality == "720" {
 		q = v.Formats.WithAudioChannels()[0].URL
