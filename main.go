@@ -33,6 +33,7 @@ func processor(w http.ResponseWriter, r bunrouter.Request) error {
 	}
 	http.ServeFile(w, r.Request, out)
 	w.WriteHeader(http.StatusOK)
+	_ = os.Remove(out)
 	return nil
 }
 
