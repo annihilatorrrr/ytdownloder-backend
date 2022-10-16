@@ -63,11 +63,9 @@ func main() {
 		WriteTimeout: 3 * time.Second,
 		Handler:      handler,
 	}
-	go func() {
-		if err := server.ListenAndServe(); err != nil {
-			log.Println(err)
-		}
-	}()
 	yt = youtube.Client{}
+	if err := server.ListenAndServe(); err != nil {
+		log.Println(err)
+	}
 	log.Println("Started!")
 }
