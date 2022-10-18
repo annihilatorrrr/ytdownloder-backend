@@ -48,7 +48,6 @@ func main() {
 	log.Println("Starting ...")
 	router := bunrouter.New()
 	router.GET("/", welcm)
-	router.GET("/download", okand)
 	router.GET("/download/:id/:quality", processor)
 	router.GET("/download/:id", processor)
 	port := os.Getenv("PORT")
