@@ -18,6 +18,6 @@ require (
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/rivo/uniseg v0.4.3 // indirect
 	github.com/vbauerster/mpb/v5 v5.4.0 // indirect
-	golang.org/x/sys v0.2.0 // indirect
+	golang.org/x/sys v0.4.0 // indirect
 	golang.org/x/text v0.4.0 // indirect
 )
